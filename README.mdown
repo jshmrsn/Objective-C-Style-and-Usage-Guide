@@ -1,7 +1,8 @@
 #Josh Rosen's Objective-C Style and Usage Guide
 
-
-Where possible, these guidelines are derived from the notion that code must be read many times, but written only once, and so places an emphasis on clarity and explicitness over terseness.
+This is an evolving document for my personal style and usage guidelines when writing Objective-C code.  
+  
+Where possible, these guidelines are derived from the notion that code must be read many times, but written only once, and so places an emphasis on clarity and explicitness over terseness.  
 
 
 ##Abbreviations
