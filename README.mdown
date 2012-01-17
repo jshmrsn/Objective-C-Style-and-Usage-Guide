@@ -162,7 +162,7 @@ __Defines for code generation__ should be named camel-cased-first-upper.
 
 ##Overall Class Layout
 
-#### MyClass.h
+__MyClass.h__
 
 	#pragma once // header guard
 	
@@ -188,7 +188,7 @@ __Defines for code generation__ should be named camel-cased-first-upper.
 	@end
 
 
-#### MyClass.m
+__MyClass.m__
 	
 	#import "MyClass.h"
 	#import "ReturnedType.h"
