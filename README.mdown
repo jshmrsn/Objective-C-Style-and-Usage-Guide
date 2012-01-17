@@ -1,88 +1,88 @@
-Josh R's Objective-C Style and Usage Guide
+#Josh Rosen's Objective-C Style and Usage Guide
 
 
 Where possible, these guidelines are derived from the notion that code must be read many times, but written only once, and so places an emphasis on clarity and explicitness over terseness.
 
 
-Abbreviations
+##Abbreviations
 Use of non-ubiquitous acronyms, initialisms, and truncations should be avoided. Widely adopted abbreviations such as HTML are acceptable. When a new engineer is joining a project, they should not have to wade through a sea of unfamiliar terminology (while in practice this unavoidable, it should be minimized).
 
-Opening Braces and Newlines
-C functions: Opening brace goes on a new line.
-Class and instance methods: Opening brace goes on a new line.
-If statement: Opening brace goes on a new line.
-C-Blocks: Opening brace goes on a new line, except when the block is a parameter for a C function or ObjC message send... Xcode will auto-format improperly otherwise.
+##Opening Braces and Newlines
+__C functions:__ Opening brace goes on a new line.
+__Class and instance methods:__ Opening brace goes on a new line.
+__If statement:__ Opening brace goes on a new line.
+__C-Blocks:__ Opening brace goes on a new line, except when the block is a parameter for a C function or ObjC message send... Xcode will auto-format improperly otherwise.
 
-if (true)
-{
-}
-else
-{
-}
+	if (true)  
+	{}  
+	else  
+	{}  
 
-[someObject doSomethingWithABlock:^(int someInt) {
-            printf(“I’m in a block.”);
-     }];
+	[someObject doSomethingWithABlock:^(int someInt) {  
+	            printf(“I’m in a block.”);  
+	     }];  
 
-void (^aBlock)(int) = ^(int someInt)
-{
- printf(“I’m in a block.”);
-}
-
-Commenting
+	void (^aBlock)(int) = ^(int someInt)  
+	{  
+	   printf(“I’m in a block.”);  
+	}
+  
+##Commenting
 While comments are highly encouraged for documenting details and reasonings that are not obvious from the code itself, comments should never be considered a replacement for clear code. Before adding a comment, ask yourself if the code itself could be clarified, removing the need for the comment altogether.
 
-int nEntsW; // Number of entities in the world
+	int nEntsW; // Number of entities in the world
 
-int numberOfEntitiesInTheWorld;
+	int numberOfEntitiesInTheWorld;
 
 
-Tabs or spaces?
+##Tabs or spaces?
 Xcode defaults to 4 spaces, so to increase the likelihood of consistency, use 4 spaces.
 
 
-Identifier Naming
+##Identifier Naming
 
-Stack variables are named using camel-case-first-lower, and should form a noun.
+__Stack variables__ are named using camel-case-first-lower, and should form a noun.
 int someVariable = 0;
 
 The asterisk used for pointer declarations should immediately follow their base type, and should not be prefixed to the variable identifier.
 NSString* someHtmlString;
 
-NOTE: The reasoning behind this is that "being a pointer" is a characteristic of the type, not a characteristic of the identifier. Prefixing the asterisk on the identifier is necessary when using C's "int *x, *y, *z;" syntax, but this syntax should not be used; see "Declare variables nearest to first use".
+*NOTE: The reasoning behind this is that "being a pointer" is a characteristic of the type, not a characteristic of the identifier. Prefixing the asterisk on the identifier is necessary when using C's "int *x, *y, *z;" syntax, but this syntax should not be used; see "Declare variables nearest to first use".*
 
-C functions are named using camel-cased-first-lower, and should form a verb or action.
-void doSomething(void)
-{
-}
+__C functions__ are named using camel-cased-first-lower, and should form a verb or action.  
+
+	void doSomething(void)
+	{
+	}
 
 When associated with a particular class, C functions should be prefixed with that class’s identifier and placed inside that class’s @implementation block.
 
-Dog_bark(Dog* self)
-{
-}
+	Dog_bark(Dog* self)
+	{
+	}
+  
+*NOTE: It’s important to place class-associated C functions inside their corresponding class’s @implementation block so that they can directly access private instance variables.*  
+  
+  
+_Classes, structs, and protocols_ are named using camel-case-first-upper.  
+  
+	@interface HTMLParser : Parser <SomeProtocol>  
+  
+Subclasses should express their added characteristics with prefixed, not suffixed, qualifiers.  
 
-NOTE: It’s important to place class-associated C functions inside their corresponding class’s @implementation block so that they can directly access private instance variables.
-
-
-Classes, structs, and protocols are named using camel-case-first-upper.
-
-@interface HTMLParser : Parser <SomeProtocol>
-
-Subclasses should express their added characteristics with prefixed, not suffixed, qualifiers.
-GreenBox : Box << preferred
-Box_Green : Box << avoid
-
+	GreenBox : Box // preferred
+	Box_Green : Box // avoid
+ 
 NOTE: Initialisms, like HTML, are formatted as "HTML" for class names, but formatted as "Html" for all other identifiers. While it is arguable that each letter in an initialism represents a separate word, and thus should each start with a capital letter, it can be difficult to read where camel-cased words start and end in this situation. E.g., quickly reading the separation between "HTML" and "String" is difficult in someHTMLString. However, Apple has established a strong precedent for using all-uppercase initialisms in class names, so we abide by this as an exception.
-
-
-Instance variables are named similarly to stack variables, camel-cased-first-lower.
-
-@interface SomeClass : NSObject
-{
- int foo;
-}
-@end
+  
+  
+_Instance variables_ are named similarly to stack variables, camel-cased-first-lower.  
+  
+	@interface SomeClass : NSObject  
+	{  
+	 int foo;  
+	}  
+	@end  
 
 NOTE: Explicitly declaring instance variables is rarely needed anymore, as property synthesis now generate implied instance variables.
 
@@ -90,152 +90,157 @@ When referring to an instance variable, it’s recommended to use include the ex
 
 Properties should share the precise name of  their instance variable counterpart. Properties should be given the nonatomic attribute for performance reasons, unless otherwise needed.
 
-@property (nonatomic, assign) int foo;
+	@property (nonatomic, assign) int foo;
 
 Instance methods and class methods should be named using camel-cased-first-lower, with a newline added after every parameter that isn’t the last, and should have a verb/action form. Parameters should also be named using camel-cased-first-lower.
 
-- (void)readFromFilepath:(NSString*)filepath;
-
-- (void)readFromFilepath:(NSString*)filepath
-                             error:(NSError**)errorOrNil;
+	- (void)readFromFilepath:(NSString*)filepath;
+	
+	- (void)readFromFilepath:(NSString*)filepath
+	                             error:(NSError**)errorOrNil;
 
 Method parameters may be lengthened to clarify their usage (e.g. errorOrNil).
 Methods should most often be named in verb form, with the exception of methods which act as property accessors.
 
-Method name components should always indicate their inputs, not just their basic action.
-- (void)readFromFilepath:(NSString*)filepath; << preferred
-- (void)read:(NSString*)filepath;  << avoid
+Method name components should always indicate their inputs, not just their basic action.  
 
+	- (void)readFromFilepath:(NSString*)filepath; // preferred
+	- (void)read:(NSString*)filepath;  // avoid
+  
 
 Enums should be named camel-cased-first-upper. Each value of an enum should be named with the full length of the enum’s name, appended by the value’s name.
 
-typedef enum
-{
-ResultAllGood,
-ResultUnexpectedError,
-ResultUnknown
-} Result;
+	typedef enum
+	{
+		ResultAllGood,
+		ResultUnexpectedError,
+		ResultUnknown
+	} Result;
 
 
-IBOutlets should be named to represent the object that will present data, not the data itself.
-@property (nonatomic, retain) UILabel* titleLabel;   << preferred
-@property (nonatomic, retain) UILabel* title; << misleading
+__IBOutlets__ should be named to represent the object that will present data, not the data itself.  
+	@property (nonatomic, retain) UILabel* titleLabel;   // preferred
+	@property (nonatomic, retain) UILabel* title; // misleading
 
 Never mark instance variables as IBOutlets directly. Retain rules for IBOutlet instance variables differ depending on platform and can lead to memory leaks.
 
 
-IBActions are methods, and thus should maintain their verb-based form.
-- (IBAction)showDetails;  << preferred
-- (IBAction)showDetailsAction;  << loses verb form
-- (IBAction)button1Action;  << don’t do this :)
+__IBActions__ are methods, and thus should maintain their verb-based form.
+  
+	- (IBAction)showDetails;  // preferred
+	- (IBAction)showDetailsAction;  // loses verb form
+	- (IBAction)button1Action;  // don’t do this :)
 
-Block variables should be named similarly to other variables, perhaps with a “Handler” or “Block” suffix, but still maintaining a noun form.
+__Block variables__ should be named similarly to other variables, perhaps with a “Handler” or “Block” suffix, but still maintaining a noun form.
 
-void (^doSomethingBlock)(int) = ^(int someInput)   << preferred
-{
-}
-
-void (^doSomething)(int) = ^(int someInput)   << avoid
-{
-}
+	void (^doSomethingBlock)(int) = ^(int someInput)   // preferred
+	{
+	}
+	
+	void (^doSomething)(int) = ^(int someInput)   // avoid
+	{
+	}
 
 Defines for code switching should be named in all-caps, with underscores separating each word.
-#define ENABLE_PRINTING 1
+	#define ENABLE_PRINTING 1
 
-#if ENABLE_PRINTING
-printf(“foo”);
-#endif
+	#if ENABLE_PRINTING
+	printf(“foo”);
+	#endif
 
 Defines for value constants should be named camel-cased, with a prefixed “k”.
-#define kMagickNumber 5.123
-
-float x = kMagickNumber _* y;
+  
+	#define kMagickNumber 5.123
+	
+	float x = kMagickNumber _* y;
 
 Defines for code generation should be named camel-cased-first-upper.
-#define CustomAssert(case, message) if (!case) { printf(“assert: %s\n” message); assert(false);}
+  
+	#define CustomAssert(case, message) if (!case) { printf(“assert: %s\n” message); assert(false);}
 
 
-Class Categories
+##Class Categories
 Categories can provide a convenient way to add functionality to an existing class, especially clasess whose implementation you cannot control.
 Methods added to a class via a category should maintain the same naming conventions as other methods, no uniquifying prefixes should not be added. However, it’s important to note that if multiple categories override the same method, one of the categories will silently override the other. Thus, it’s important to keep the method names in categories as explicit as possible, to avoid differing implementations to conflict.
 
-Private Class Extension Categories
+##Private Class Extension Categories
 Extension categories should be used to add method, property, and instance declarations that are private to your class’s implementation.
 
-@interface MyClass : NSObject
-- (void)publicMethod;
-@end
-
-@interface MyClass ()
-{
-int privateInstanceVariable;
-}
-@property (nonatomic, retain) int privateProperty;
-- (void)privateMethod;
-end
-
-
-Use structured types to represent structured data.  Minimize usage of loosely defined dictionaries to transfer otherwise well defined data.
-For example, if you get JSON response from a server request that is expected to contain data in the form of {“name”: “Joe”, “phone”: “123-123-1234”}, you should create an Objective-C class with name and phoneNumberString properties and convert the server’s response to an object of that class immediately. Do not pass around a dictionary containing “name” and “phone” keys through your program’s internals. If the server’s response is later updated to change the “name” key to “fullName”, refactoring the client code to handle this change will be much easier and bug-free if there’s a strict compiler-enforced representation of the data.
+	@interface MyClass : NSObject
+	- (void)publicMethod;
+	@end
+	
+	@interface MyClass ()
+	{
+	int privateInstanceVariable;
+	}
+	@property (nonatomic, retain) int privateProperty;
+	- (void)privateMethod;
+	end
 
 
-Never rely on the timing of a dealloc method’s exection.
-Never place any business logic in dealloc methods, only release and free memory.
+##Use structured types to represent structured data. Minimize usage of loosely defined dictionaries to transfer otherwise well defined data.
+For example, if a server request that is expected to contain data in the following format,
+
+	{“name”: “Joe”, “phone”: “123-123-1234”}
+an Objective-C class should be created with *name* and *phoneNumberString* properties. This class should be used whenever the response data is passed throughout the program. Do not pass around a dictionary containing “name” and “phone” keys through the program’s internals. If the server’s response is later updated to change the “name” key to “fullName”, refactoring the client code to handle this change will be safer if there is a compiler-checked representation of the data.
+  
+##Never rely on the timing of a dealloc method’s exection. Never place any business logic in dealloc methods, only release and free memory.
 It’s very important to not make assumptions about when a dealloc method will be called. Even if you define strict rules for which objects can retain you (which you shouldn’t), as soon as your object is added to an autorelease pool, your object’s dealloc will be postponed.
 Thus, you should minimize, if not eliminate, any business logic inside a dealloc method; if said business logic makes assumptions about a program’s state at time of execution, difficult to reproduce inconsistencies and bugs may arise.
-
-Do not use property accessors in dealloc methods.
+  
+##Do not use property accessors in dealloc methods.
 Related to the above topic, using property accessors in a dealloc method may cause KVO events to fire, which is likely to cause other objects to interact with your object while it is partially deallocated.
 
 
-Do not use property accessors in init methods.
+##Do not use property accessors in init methods.
 Using property accessors in init methods may cause KVO events  to fire, which is likely to cause other objects to interact with your object before it is fully initialized.
 
-
-Use class-associated C functions instead of methods for performance.
+##Use class-associated C functions instead of methods when extra performance is needed.
 When working with performance critical code (which isn’t all code), it’s often a good idea to forgo the cleanliness of Objective-C message sends in place of class-associated C functions. As long as your method doesn’t expect to be overridden by a subclass, it’s usually acceptable to use a C function instead. Doing so will save a message send per call, which is expected to be more costly than a C function call.
 
 
-When to use message-send dot syntax vs. bracket syntax.
+##When to use message-send dot syntax vs. bracket syntax.
 A method does not have be associated with a property in order to use message send dot syntax.
 UIColor.redColor uses the same mechanics as someTextField.text.
 Generally, it’s acceptable to use dot syntax whenever the method you are calling forms a noun. Conversely, a method that forms a verb should not be used with dot syntax, e.g. dog.bark.
 
 
-Utilizing Blocks
+##Utilizing Objective-C blocks (aka lamdas, closures)
 Blocks utilize a syntax that is often unfamiliar, and can lead to a complex, if not confusing, code flow if not used carefully. That said, blocks can also be extremely useful for expressing complex asynchronous event chains in a way that is naturally close to the problem.
 
-An example borrowed from "Designing With Blocks", Ben Coe:
-IMAP* imap = [[IMAP alloc] init];
-[imap connect: @"imap.gmail.com" port: 993 callback: ^(bool connected, NSError *error){
-  [imap login: @"fakeuser@gmail.com" password: @"fakepass" callback: ^(NSString* response){
-      [imap select: @"[Gmail]/All Mail" callback: ^(NSString* response){
-          [imap fetch: @"200" fields: @"(body[header.fields (from to subject date)])" callback: ^(NSString* message){
-              NSLog(@"%@", message);
-          }];
-      }];
-  }];
-}];
+An example borrowed from ["Designing With Blocks", Ben Coe](http://www.benjamincoe.com/post/15891802388/objective-c-designing-with-blocks):
+
+	IMAP* imap = [[IMAP alloc] init];
+	[imap connect: @"imap.gmail.com" port: 993 callback: ^(bool connected, NSError *error){
+	  [imap login: @"fakeuser@gmail.com" password: @"fakepass" callback: ^(NSString* response){
+	      [imap select: @"[Gmail]/All Mail" callback: ^(NSString* response){
+	          [imap fetch: @"200" fields: @"(body[header.fields (from to subject date)])" callback: ^(NSString* message){
+	              NSLog(@"%@", message);
+	          }];
+	      }];
+	  }];
+	}];
 
 Here, a rather complex chain of asynchronous events can concisely expressed without the need for a tedious set of callback methods.
 
 
-Declare variables nearest to first use.
+##Declare variables nearest to first use.
 This avoids uninitialized variables existing in scope longer than necessary, which might otherwise lead to accidental use of uninitialized values.
 
-void doSomething(void)
-{
-   int z = getSomethingFromServer();   << preferred
-   int x = getSomethingElse() + 20;
-   int y = x + z;
-}
-
-void doSomething(void)
-{
-   int x, y;  << avoid
-   bool z;
-
-   z = getSomethingFromServer();
-   x = getSomethingElse() + 20;
-   y = x + z;
-}
+	void doSomething(void)
+	{
+	   int z = getSomethingFromServer();   // preferred
+	   int x = getSomethingElse() + 20;
+	   int y = x + z;
+	}
+	
+	void doSomething(void)
+	{
+	   int x, y;  // avoid
+	   bool z;
+	
+	   z = getSomethingFromServer();
+	   x = getSomethingElse() + 20;
+	   y = x + z;
+	}
