@@ -74,7 +74,7 @@ Subclasses should express their added characteristics with prefixed, not suffixe
 	GreenBox : Box // preferred
 	Box_Green : Box // avoid
  
-NOTE: Initialisms, like HTML, are formatted as "HTML" for class names, but formatted as "Html" for all other identifiers. While it is arguable that each letter in an initialism represents a separate word, and thus should each start with a capital letter, it can be difficult to read where camel-cased words start and end in this situation. E.g., quickly reading the separation between "HTML" and "String" is difficult in someHTMLString. However, Apple has established a strong precedent for using all-uppercase initialisms in class names, so we abide by this as an exception.
+*NOTE: Initialisms, like HTML, are formatted as "HTML" for class names, but formatted as "Html" for all other identifiers. While it is arguable that each letter in an initialism represents a separate word, and thus should each start with a capital letter, it can be difficult to read where camel-cased words start and end in this situation. E.g., quickly reading the separation between "HTML" and "String" is difficult in someHTMLString. However, Apple has established a strong precedent for using all-uppercase initialisms in class names, so we abide by this as an exception.*
   
   
 _Instance variables_ are named similarly to stack variables, camel-cased-first-lower.  
@@ -85,7 +85,7 @@ _Instance variables_ are named similarly to stack variables, camel-cased-first-l
 	}  
 	@end  
 
-NOTE: Explicitly declaring instance variables is rarely needed anymore, as property synthesis now generate implied instance variables.
+*NOTE: Explicitly declaring instance variables is rarely needed anymore, as property synthesis now generate implied instance variables.*
 
 When referring to an instance variable, it’s recommended to use include the explicit self-> prefix so as to differentiate from property dot access.
 
@@ -93,7 +93,7 @@ Properties should share the precise name of  their instance variable counterpart
 
 	@property (nonatomic, assign) int foo;
 
-Instance methods and class methods should be named using camel-cased-first-lower, with a newline added after every parameter that isn’t the last, and should have a verb/action form. Parameters should also be named using camel-cased-first-lower.
+__Instance methods__ and class methods should be named using camel-cased-first-lower, with a newline added after every parameter that isn’t the last, and should have a verb/action form. Parameters should also be named using camel-cased-first-lower.
 
 	- (void)readFromFilepath:(NSString*)filepath;
 	
@@ -109,7 +109,7 @@ Method name components should always indicate their inputs, not just their basic
 	- (void)read:(NSString*)filepath;  // avoid
   
 
-Enums should be named camel-cased-first-upper. Each value of an enum should be named with the full length of the enum’s name, appended by the value’s name.
+__Enums__ should be named camel-cased-first-upper. Each value of an enum should be named with the full length of the enum’s name, appended by the value’s name.
 
 	typedef enum
 	{
@@ -142,20 +142,20 @@ __Block variables__ should be named similarly to other variables, perhaps with a
 	{
 	}
 
-Defines for code switching should be named in all-caps, with underscores separating each word.
+__Defines for code switching__ should be named in all-caps, with underscores separating each word.
 	#define ENABLE_PRINTING 1
 
 	#if ENABLE_PRINTING
 	printf(“foo”);
 	#endif
 
-Defines for value constants should be named camel-cased, with a prefixed “k”.
+__Defines for value constants__ should be named camel-cased, with a prefixed “k”.
   
 	#define kMagickNumber 5.123
 	
 	float x = kMagickNumber _* y;
 
-Defines for code generation should be named camel-cased-first-upper.
+__Defines for code generation__ should be named camel-cased-first-upper.
   
 	#define CustomAssert(case, message) if (!case) { printf(“assert: %s\n” message); assert(false);}
 
