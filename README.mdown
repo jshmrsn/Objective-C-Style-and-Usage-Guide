@@ -143,8 +143,9 @@ __Block variables__ should be named similarly to other variables, perhaps with a
 	}
 
 __Defines for code switching__ should be named in all-caps, with underscores separating each word.
-	#define ENABLE_PRINTING 1
 
+	#define ENABLE_PRINTING 1
+	
 	#if ENABLE_PRINTING
 	printf(“foo”);
 	#endif
@@ -159,6 +160,96 @@ __Defines for code generation__ should be named camel-cased-first-upper.
   
 	#define CustomAssert(case, message) if (!case) { printf(“assert: %s\n” message); assert(false);}
 
+##Overall Class Layout
+
+#### MyClass.h
+
+	#pragma once // header guard
+	
+	#import "BaseClass.h" // Attempt to minimize includes in header files to avoid unnecessary include chains
+	
+	@class ReturnedType; // Use predeclares instead of imports where possible
+	
+	@interface MyClass : BaseClass
+	// Unless your class MUST publicly expose instance variables, don't include an instance variable block in your header (you can declare your instance variables in your implementation later)
+	
+	// Public properties first
+	@property (nonatomic, retain, readonly) SomeClass* something;
+	
+	// Then class methods
+	+ (id)something;
+	
+	// Then instance methods
+	- (ReturnedType*)doSomething;
+	
+	// Then class-associated C functions
+	MyClass_doSomething(MyClass* self);
+	
+	@end
+
+
+#### MyClass.m
+	
+	#import "MyClass.h"
+	#import "ReturnedType.h"
+	
+	// Private extension category
+	@interface MyClass ()
+	{
+		// Here you can declare private member variables, but only do so if they have a corresponding property (if they have a property, they will be generated for you)
+		@private
+		int someIvarThatIsNotAProperty;
+	}
+	
+	@property (nonatomic, retain) SomeClass* something; // private read-write version of public readonly properties
+	@property (nonatomic, assign) int privateProperty;
+	
+	// private methods
+	- (void)doSomethingPrivate;
+	
+	@end
+	
+	
+	@implemenation MyClass
+	
+	// Class methods first
+	+ (id)something
+	{
+		return [[[MyClass alloc] init] autorelease];
+	}
+	
+	// Init methods
+	- (id)init
+	{
+		self = [super init];
+	
+		if (self != nil)
+		{
+			something = [SomeClass new];
+		}
+	
+		return self;
+	}
+	
+	// Dealloc method immediately after init methods
+	- (void)dealloc
+	{
+		[super dealloc];
+	}
+	
+	// General instance methods
+	- (ReturnedType*)doSomething
+	{
+		//...
+	}
+	
+	// Class-associated C functions
+	MyClass_doSomething(MyClass* self)
+	{
+		//...
+	}
+	
+	@end
 
 ##Class Categories
 Categories can provide a convenient way to add functionality to an existing class, especially clasess whose implementation you cannot control.
@@ -199,6 +290,17 @@ Thus, you should minimize, if not eliminate, any business logic inside a dealloc
 ##Do not use property accessors in dealloc methods.
 Related to the above topic, using property accessors in a dealloc method may cause KVO events to fire, which is likely to cause other objects to interact with your object while it is partially deallocated.
 
+	- (void)dealloc
+	{
+		[memberVariable release]; // preferred
+		[super dealloc];
+	}
+	
+	- (void)dealloc
+	{
+		self.memberVariable = nil; // avoid
+		[super dealloc];
+	}
 
 ##Do not use property accessors in init methods.
 Using property accessors in init methods may cause KVO events  to fire, which is likely to cause other objects to interact with your object before it is fully initialized.
@@ -229,7 +331,7 @@ An example borrowed from ["Designing With Blocks", Ben Coe](http://www.benjaminc
 	  }];
 	}];
 
-Here, a rather complex chain of asynchronous events can concisely expressed without the need for a tedious set of callback methods.
+Here, a rather complex chain of asynchronous events are concisely expressed without the need for a tedious set of callback methods.
 
 
 ##Declare variables nearest to first use.
@@ -251,3 +353,4 @@ This avoids uninitialized variables existing in scope longer than necessary, whi
 	   x = getSomethingElse() + 20;
 	   y = x + z;
 	}
+
