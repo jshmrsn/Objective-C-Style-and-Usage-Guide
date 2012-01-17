@@ -184,7 +184,13 @@ For example, if a server request that is expected to contain data in the followi
 
 	{“name”: “Joe”, “phone”: “123-123-1234”}
 an Objective-C class should be created with *name* and *phoneNumberString* properties. This class should be used whenever the response data is passed throughout the program. Do not pass around a dictionary containing “name” and “phone” keys through the program’s internals. If the server’s response is later updated to change the “name” key to “fullName”, refactoring the client code to handle this change will be safer if there is a compiler-checked representation of the data.
-  
+
+	@interface User : NSObject
+	@property (nonatomic, retain) NSString* name;
+	@property (nonatomic, retain) NSString* phoneNumberString;
+	@end
+
+
 ##Never rely on the timing of a dealloc method’s exection. Never place any business logic in dealloc methods, only release and free memory.
 It’s very important to not make assumptions about when a dealloc method will be called. Even if you define strict rules for which objects can retain you (which you shouldn’t), as soon as your object is added to an autorelease pool, your object’s dealloc will be postponed.
 Thus, you should minimize, if not eliminate, any business logic inside a dealloc method; if said business logic makes assumptions about a program’s state at time of execution, difficult to reproduce inconsistencies and bugs may arise.
