@@ -65,7 +65,7 @@ When associated with a particular class, C functions should be prefixed with tha
 *NOTE: It’s important to place class-associated C functions inside their corresponding class’s @implementation block so that they can directly access private instance variables.*  
   
   
-_Classes, structs, and protocols_ are named using camel-case-first-upper.  
+__Classes, structs, and protocols__ are named using camel-case-first-upper.  
   
 	@interface HTMLParser : Parser <SomeProtocol>  
   
@@ -77,7 +77,7 @@ Subclasses should express their added characteristics with prefixed, not suffixe
 *NOTE: Initialisms, like HTML, are formatted as "HTML" for class names, but formatted as "Html" for all other identifiers. While it is arguable that each letter in an initialism represents a separate word, and thus should each start with a capital letter, it can be difficult to read where camel-cased words start and end in this situation. E.g., quickly reading the separation between "HTML" and "String" is difficult in someHTMLString. However, Apple has established a strong precedent for using all-uppercase initialisms in class names, so we abide by this as an exception.*
   
   
-_Instance variables_ are named similarly to stack variables, camel-cased-first-lower.  
+__Instance variables__ are named similarly to stack variables, camel-cased-first-lower.  
   
 	@interface SomeClass : NSObject  
 	{  
@@ -89,7 +89,7 @@ _Instance variables_ are named similarly to stack variables, camel-cased-first-l
 
 When referring to an instance variable, it’s recommended to use include the explicit self-> prefix so as to differentiate from property dot access.
 
-Properties should share the precise name of  their instance variable counterpart. Properties should be given the nonatomic attribute for performance reasons, unless otherwise needed.
+__Properties__ should share the precise name of their instance variable counterpart. Properties should be given the nonatomic attribute for performance reasons, unless otherwise needed.
 
 	@property (nonatomic, assign) int foo;
 
