@@ -9,10 +9,10 @@ Where possible, these guidelines are derived from the notion that code must be r
 Use of non-ubiquitous acronyms, initialisms, and truncations should be avoided. Widely adopted abbreviations such as HTML are acceptable. When a new engineer is joining a project, they should not have to wade through a sea of unfamiliar terminology (while in practice this unavoidable, it should be minimized).
 
 ##Opening Braces and Newlines
-__C functions:__ Opening brace goes on a new line.
-__Class and instance methods:__ Opening brace goes on a new line.
-__If statement:__ Opening brace goes on a new line.
-__C-Blocks:__ Opening brace goes on a new line, except when the block is a parameter for a C function or ObjC message send... Xcode will auto-format improperly otherwise.
+__C functions:__ Opening brace goes on a new line.  
+__Class and instance methods:__ Opening brace goes on a new line.  
+__If statement:__ Opening brace goes on a new line.  
+__C-Blocks:__ Opening brace goes on a new line, except when the block is a parameter for a C function or ObjC message send... Xcode will auto-format improperly otherwise.  
 
 	if (true)  
 	{}  
