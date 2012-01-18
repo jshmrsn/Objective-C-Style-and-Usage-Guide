@@ -315,7 +315,7 @@ end
 ##Use structured types to represent structured data. Minimize usage of loosely defined dictionaries to transfer otherwise well defined data.
 For example, if a server request that is expected to contain data in the following format,
 
-```objective-c
+```json
 {“name”: “Joe”, “phone”: “123-123-1234”}
 ```
 an Objective-C class should be created with *name* and *phoneNumberString* properties. This class should be used whenever the response data is passed throughout the program. Do not pass around a dictionary containing “name” and “phone” keys through the program’s internals. If the server’s response is later updated to change the “name” key to “fullName”, refactoring the client code to handle this change will be safer if there is a compiler-checked representation of the data.
@@ -369,13 +369,13 @@ An example borrowed from ["Designing With Blocks", Ben Coe](http://www.benjaminc
 ```objective-c
 IMAP* imap = [[IMAP alloc] init];
 [imap connect: @"imap.gmail.com" port: 993 callback: ^(bool connected, NSError *error){
-  [imap login: @"fakeuser@gmail.com" password: @"fakepass" callback: ^(NSString* response){
-      [imap select: @"[Gmail]/All Mail" callback: ^(NSString* response){
-          [imap fetch: @"200" fields: @"(body[header.fields (from to subject date)])" callback: ^(NSString* message){
-              NSLog(@"%@", message);
-          }];
-      }];
-  }];
+    [imap login: @"fakeuser@gmail.com" password: @"fakepass" callback: ^(NSString* response){
+        [imap select: @"[Gmail]/All Mail" callback: ^(NSString* response){
+            [imap fetch: @"200" fields: @"(body[header.fields (from to subject date)])" callback: ^(NSString* message){
+                NSLog(@"%@", message);
+            }];
+        }];
+    }];
 }];
 ```
 
@@ -388,18 +388,18 @@ This avoids uninitialized variables existing in scope longer than necessary, whi
 ```objective-c
 void doSomething(void)
 {
-   int z = getSomethingFromServer();   // preferred
-   int x = getSomethingElse() + 20;
-   int y = x + z;
+    int z = getSomethingFromServer();   // preferred
+    int x = getSomethingElse() + 20;
+    int y = x + z;
 }
 
 void doSomething(void)
 {
-   int x, y;  // avoid
-   bool z;
+    int x, y;  // avoid
+    bool z;
 
-   z = getSomethingFromServer();
-   x = getSomethingElse() + 20;
-   y = x + z;
+    z = getSomethingFromServer();
+    x = getSomethingElse() + 20;
+    y = x + z;
 }
 ```
