@@ -14,27 +14,36 @@ __Class and instance methods:__ Opening brace goes on a new line.
 __If statement:__ Opening brace goes on a new line.  
 __C-Blocks:__ Opening brace goes on a new line, except when the block is a parameter for a C function or ObjC message send... Xcode will auto-format improperly otherwise.  
 
-	if (true)  
-	{}  
-	else  
-	{}  
+```objective-c
+if (true)  
+{}  
+else  
+{}  
+```
 
-	[someObject doSomethingWithABlock:^(int someInt) {  
-	            printf(“I’m in a block.”);  
-	     }];  
+```objective-c
+[someObject doSomethingWithABlock:^(int someInt) {  
+            printf(“I’m in a block.”);  
+     }];  
+```
 
-	void (^aBlock)(int) = ^(int someInt)  
-	{  
-	   printf(“I’m in a block.”);  
-	}
-  
+```objective-c
+void (^aBlock)(int) = ^(int someInt)  
+{  
+   printf(“I’m in a block.”);  
+}
+```
+
 ##Commenting
 While comments are highly encouraged for documenting details and reasonings that are not obvious from the code itself, comments should never be considered a replacement for clear code. Before adding a comment, ask yourself if the code itself could be clarified, removing the need for the comment altogether.
 
-	int nEntsW; // Number of entities in the world
+```objective-c
+int nEntsW; // Number of entities in the world
+```
 
-	int numberOfEntitiesInTheWorld;
-
+```objective-c
+int numberOfEntitiesInTheWorld;
+```
 
 ##Tabs or spaces?
 Xcode defaults to 4 spaces, so to increase the likelihood of consistency, use 4 spaces.
@@ -52,38 +61,48 @@ NSString* someHtmlString;
 
 __C functions__ are named using camel-cased-first-lower, and should form a verb or action.  
 
-	void doSomething(void)
-	{
-	}
+```objective-c
+void doSomething(void)
+{
+}
+```
 
 When associated with a particular class, C functions should be prefixed with that class’s identifier and placed inside that class’s @implementation block.
 
-	Dog_bark(Dog* self)
-	{
-	}
-  
+```objective-c
+Dog_bark(Dog* self)
+{
+}
+```
+
 *NOTE: It’s important to place class-associated C functions inside their corresponding class’s @implementation block so that they can directly access private instance variables.*  
   
   
 __Classes, structs, and protocols__ are named using camel-case-first-upper.  
-  
-	@interface HTMLParser : Parser <SomeProtocol>  
-  
+
+```objective-c
+@interface HTMLParser : Parser <SomeProtocol>  
+```
+
 Subclasses should express their added characteristics with prefixed, not suffixed, qualifiers.  
 
-	GreenBox : Box // preferred
-	Box_Green : Box // avoid
- 
+```objective-c
+GreenBox : Box // preferred
+Box_Green : Box // avoid
+```
+
 *NOTE: Initialisms, like HTML, are formatted as "HTML" for class names, but formatted as "Html" for all other identifiers. While it is arguable that each letter in an initialism represents a separate word, and thus should each start with a capital letter, it can be difficult to read where camel-cased words start and end in this situation. E.g., quickly reading the separation between "HTML" and "String" is difficult in someHTMLString. However, Apple has established a strong precedent for using all-uppercase initialisms in class names, so we abide by this as an exception.*
   
   
 __Instance variables__ are named similarly to stack variables, camel-cased-first-lower.  
-  
-	@interface SomeClass : NSObject  
-	{  
-	 int foo;  
-	}  
-	@end  
+
+```objective-c
+@interface SomeClass : NSObject  
+{  
+ int foo;  
+}  
+@end  
+```
 
 *NOTE: Explicitly declaring instance variables is rarely needed anymore, as property synthesis now generate implied instance variables.*
 
@@ -91,165 +110,186 @@ When referring to an instance variable, it’s recommended to use include the ex
 
 __Properties__ should share the precise name of their instance variable counterpart. Properties should be given the nonatomic attribute for performance reasons, unless otherwise needed.
 
-	@property (nonatomic, assign) int foo;
+```objective-c
+@property (nonatomic, assign) int foo;
+```
 
 __Instance methods__ and class methods should be named using camel-cased-first-lower, with a newline added after every parameter that isn’t the last, and should have a verb/action form. Parameters should also be named using camel-cased-first-lower.
 
-	- (void)readFromFilepath:(NSString*)filepath;
-	
-	- (void)readFromFilepath:(NSString*)filepath
-	                             error:(NSError**)errorOrNil;
+```objective-c
+- (void)readFromFilepath:(NSString*)filepath;
+
+- (void)readFromFilepath:(NSString*)filepath
+                             error:(NSError**)errorOrNil;
+```
 
 Method parameters may be lengthened to clarify their usage (e.g. errorOrNil).
 Methods should most often be named in verb form, with the exception of methods which act as property accessors.
 
 Method name components should always indicate their inputs, not just their basic action.  
 
-	- (void)readFromFilepath:(NSString*)filepath; // preferred
-	- (void)read:(NSString*)filepath;  // avoid
-  
+```objective-c
+- (void)readFromFilepath:(NSString*)filepath; // preferred
+- (void)read:(NSString*)filepath;  // avoid
+```
 
 __Enums__ should be named camel-cased-first-upper. Each value of an enum should be named with the full length of the enum’s name, appended by the value’s name.
 
-	typedef enum
-	{
-		ResultAllGood,
-		ResultUnexpectedError,
-		ResultUnknown
-	} Result;
-
+```objective-c
+typedef enum
+{
+    ResultAllGood,
+    ResultUnexpectedError,
+    ResultUnknown
+} Result;
+```
 
 __IBOutlets__ should be named to represent the object that will present data, not the data itself.  
-	@property (nonatomic, retain) UILabel* titleLabel;   // preferred
-	@property (nonatomic, retain) UILabel* title; // misleading
+```objective-c
+@property (nonatomic, retain) UILabel* titleLabel;   // preferred
+@property (nonatomic, retain) UILabel* title; // misleading
+```
 
 Never mark instance variables as IBOutlets directly. Retain rules for IBOutlet instance variables differ depending on platform and can lead to memory leaks.
 
 
 __IBActions__ are methods, and thus should maintain their verb-based form.
-  
-	- (IBAction)showDetails;  // preferred
-	- (IBAction)showDetailsAction;  // loses verb form
-	- (IBAction)button1Action;  // don’t do this :)
+
+```objective-c
+- (IBAction)showDetails;  // preferred
+- (IBAction)showDetailsAction;  // loses verb form
+- (IBAction)button1Action;  // don’t do this :)
+```
 
 __Block variables__ should be named similarly to other variables, perhaps with a “Handler” or “Block” suffix, but still maintaining a noun form.
 
-	void (^doSomethingBlock)(int) = ^(int someInput)   // preferred
-	{
-	}
-	
-	void (^doSomething)(int) = ^(int someInput)   // avoid
-	{
-	}
+```objective-c
+void (^doSomethingBlock)(int) = ^(int someInput)   // preferred
+{
+}
+
+void (^doSomething)(int) = ^(int someInput)   // avoid
+{
+}
+```
 
 __Defines for code switching__ should be named in all-caps, with underscores separating each word.
 
-	#define ENABLE_PRINTING 1
-	
-	#if ENABLE_PRINTING
-	printf(“foo”);
-	#endif
+```objective-c
+#define ENABLE_PRINTING 1
+
+#if ENABLE_PRINTING
+printf(“foo”);
+#endif
+```
 
 __Defines for value constants__ should be named camel-cased, with a prefixed “k”.
-  
-	#define kMagickNumber 5.123
-	
-	float x = kMagickNumber _* y;
+
+```objective-c
+#define kMagickNumber 5.123
+
+float x = kMagickNumber _* y;
+```
 
 __Defines for code generation__ should be named camel-cased-first-upper.
-  
-	#define CustomAssert(case, message) if (!case) { printf(“assert: %s\n” message); assert(false);}
+
+```objective-c
+#define CustomAssert(case, message) if (!case) { printf(“assert: %s\n” message); assert(false);}
+```
 
 ##Overall Class Layout
 
 __MyClass.h__
 
-	#pragma once // header guard
-	
-	#import "BaseClass.h" // Attempt to minimize includes in header files to avoid unnecessary include chains
-	
-	@class ReturnedType; // Use predeclares instead of imports where possible
-	
-	@interface MyClass : BaseClass
-	// Unless your class MUST publicly expose instance variables, don't include an instance variable block in your header (you can declare your instance variables in your implementation later)
-	
-	// Public properties first
-	@property (nonatomic, retain, readonly) SomeClass* something;
-	
-	// Then class methods
-	+ (id)something;
-	
-	// Then instance methods
-	- (ReturnedType*)doSomething;
-	
-	// Then class-associated C functions
-	MyClass_doSomething(MyClass* self);
-	
-	@end
+```objective-c
+#pragma once // header guard
 
+#import "BaseClass.h" // Attempt to minimize includes in header files to avoid unnecessary include chains
+
+@class ReturnedType; // Use predeclares instead of imports where possible
+
+@interface MyClass : BaseClass
+// Unless your class MUST publicly expose instance variables, don't include an instance variable block in your header (you can declare your instance variables in your implementation later)
+
+// Public properties first
+@property (nonatomic, retain, readonly) SomeClass* something;
+
+// Then class methods
++ (id)something;
+
+// Then instance methods
+- (ReturnedType*)doSomething;
+
+// Then class-associated C functions
+MyClass_doSomething(MyClass* self);
+
+@end
+```
 
 __MyClass.m__
-	
-	#import "MyClass.h"
-	#import "ReturnedType.h"
-	
-	// Private extension category
-	@interface MyClass ()
-	{
-		// Here you can declare private member variables, but only do so if they have a corresponding property (if they have a property, they will be generated for you)
-		@private
-		int someIvarThatIsNotAProperty;
-	}
-	
-	@property (nonatomic, retain) SomeClass* something; // private read-write version of public readonly properties
-	@property (nonatomic, assign) int privateProperty;
-	
-	// private methods
-	- (void)doSomethingPrivate;
-	
-	@end
-	
-	
-	@implemenation MyClass
-	
-	// Class methods first
-	+ (id)something
-	{
-		return [[[MyClass alloc] init] autorelease];
-	}
-	
-	// Init methods
-	- (id)init
-	{
-		self = [super init];
-	
-		if (self != nil)
-		{
-			something = [SomeClass new];
-		}
-	
-		return self;
-	}
-	
-	// Dealloc method immediately after init methods
-	- (void)dealloc
-	{
-		[super dealloc];
-	}
-	
-	// General instance methods
-	- (ReturnedType*)doSomething
-	{
-		//...
-	}
-	
-	// Class-associated C functions
-	MyClass_doSomething(MyClass* self)
-	{
-		//...
-	}
-	
-	@end
+
+```objective-c
+#import "MyClass.h"
+#import "ReturnedType.h"
+
+// Private extension category
+@interface MyClass ()
+{
+    // Here you can declare private member variables, but only do so if they have a corresponding property (if they have a property, they will be generated for you)
+    @private
+    int someIvarThatIsNotAProperty;
+}
+
+@property (nonatomic, retain) SomeClass* something; // private read-write version of public readonly properties
+@property (nonatomic, assign) int privateProperty;
+
+// private methods
+- (void)doSomethingPrivate;
+
+@end
+
+
+@implemenation MyClass
+
+// Class methods first
++ (id)something
+{
+    return [[[MyClass alloc] init] autorelease];
+}
+
+// Init methods
+- (id)init
+{
+    self = [super init];
+
+    if (self != nil)
+    {
+    	something = [SomeClass new];
+    }
+
+    return self;
+}
+
+// Dealloc method immediately after init methods
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+// General instance methods
+- (ReturnedType*)doSomething
+{
+    //...
+}
+
+// Class-associated C functions
+MyClass_doSomething(MyClass* self)
+{
+    //...
+}
+
+@end
+```
 
 ##Class Categories
 Categories can provide a convenient way to add functionality to an existing class, especially clasess whose implementation you cannot control.
@@ -258,30 +298,34 @@ Methods added to a class via a category should maintain the same naming conventi
 ##Private Class Extension Categories
 Extension categories should be used to add method, property, and instance declarations that are private to your class’s implementation.
 
-	@interface MyClass : NSObject
-	- (void)publicMethod;
-	@end
-	
-	@interface MyClass ()
-	{
-	int privateInstanceVariable;
-	}
-	@property (nonatomic, retain) int privateProperty;
-	- (void)privateMethod;
-	end
+```objective-c
+@interface MyClass : NSObject
+- (void)publicMethod;
+@end
 
+@interface MyClass ()
+{
+int privateInstanceVariable;
+}
+@property (nonatomic, retain) int privateProperty;
+- (void)privateMethod;
+end
+```
 
 ##Use structured types to represent structured data. Minimize usage of loosely defined dictionaries to transfer otherwise well defined data.
 For example, if a server request that is expected to contain data in the following format,
 
-	{“name”: “Joe”, “phone”: “123-123-1234”}
+```objective-c
+{“name”: “Joe”, “phone”: “123-123-1234”}
+```
 an Objective-C class should be created with *name* and *phoneNumberString* properties. This class should be used whenever the response data is passed throughout the program. Do not pass around a dictionary containing “name” and “phone” keys through the program’s internals. If the server’s response is later updated to change the “name” key to “fullName”, refactoring the client code to handle this change will be safer if there is a compiler-checked representation of the data.
 
-	@interface User : NSObject
-	@property (nonatomic, retain) NSString* name;
-	@property (nonatomic, retain) NSString* phoneNumberString;
-	@end
-
+```objective-c
+@interface User : NSObject
+@property (nonatomic, retain) NSString* name;
+@property (nonatomic, retain) NSString* phoneNumberString;
+@end
+```
 
 ##Never rely on the timing of a dealloc method’s exection. Never place any business logic in dealloc methods, only release and free memory.
 It’s very important to not make assumptions about when a dealloc method will be called. Even if you define strict rules for which objects can retain you (which you shouldn’t), as soon as your object is added to an autorelease pool, your object’s dealloc will be postponed.
@@ -290,17 +334,19 @@ Thus, you should minimize, if not eliminate, any business logic inside a dealloc
 ##Do not use property accessors in dealloc methods.
 Related to the above topic, using property accessors in a dealloc method may cause KVO events to fire, which is likely to cause other objects to interact with your object while it is partially deallocated.
 
-	- (void)dealloc
-	{
-		[memberVariable release]; // preferred
-		[super dealloc];
-	}
-	
-	- (void)dealloc
-	{
-		self.memberVariable = nil; // avoid
-		[super dealloc];
-	}
+```objective-c
+- (void)dealloc
+{
+    [memberVariable release]; // preferred
+    [super dealloc];
+}
+
+- (void)dealloc
+{
+    self.memberVariable = nil; // avoid
+    [super dealloc];
+}
+```
 
 ##Do not use property accessors in init methods.
 Using property accessors in init methods may cause KVO events  to fire, which is likely to cause other objects to interact with your object before it is fully initialized.
@@ -320,16 +366,18 @@ Blocks utilize a syntax that is often unfamiliar, and can lead to a complex, if 
 
 An example borrowed from ["Designing With Blocks", Ben Coe](http://www.benjamincoe.com/post/15891802388/objective-c-designing-with-blocks):
 
-	IMAP* imap = [[IMAP alloc] init];
-	[imap connect: @"imap.gmail.com" port: 993 callback: ^(bool connected, NSError *error){
-	  [imap login: @"fakeuser@gmail.com" password: @"fakepass" callback: ^(NSString* response){
-	      [imap select: @"[Gmail]/All Mail" callback: ^(NSString* response){
-	          [imap fetch: @"200" fields: @"(body[header.fields (from to subject date)])" callback: ^(NSString* message){
-	              NSLog(@"%@", message);
-	          }];
-	      }];
-	  }];
-	}];
+```objective-c
+IMAP* imap = [[IMAP alloc] init];
+[imap connect: @"imap.gmail.com" port: 993 callback: ^(bool connected, NSError *error){
+  [imap login: @"fakeuser@gmail.com" password: @"fakepass" callback: ^(NSString* response){
+      [imap select: @"[Gmail]/All Mail" callback: ^(NSString* response){
+          [imap fetch: @"200" fields: @"(body[header.fields (from to subject date)])" callback: ^(NSString* message){
+              NSLog(@"%@", message);
+          }];
+      }];
+  }];
+}];
+```
 
 Here, a rather complex chain of asynchronous events are concisely expressed without the need for a tedious set of callback methods.
 
@@ -337,20 +385,21 @@ Here, a rather complex chain of asynchronous events are concisely expressed with
 ##Declare variables nearest to first use.
 This avoids uninitialized variables existing in scope longer than necessary, which might otherwise lead to accidental use of uninitialized values.
 
-	void doSomething(void)
-	{
-	   int z = getSomethingFromServer();   // preferred
-	   int x = getSomethingElse() + 20;
-	   int y = x + z;
-	}
-	
-	void doSomething(void)
-	{
-	   int x, y;  // avoid
-	   bool z;
-	
-	   z = getSomethingFromServer();
-	   x = getSomethingElse() + 20;
-	   y = x + z;
-	}
+```objective-c
+void doSomething(void)
+{
+   int z = getSomethingFromServer();   // preferred
+   int x = getSomethingElse() + 20;
+   int y = x + z;
+}
 
+void doSomething(void)
+{
+   int x, y;  // avoid
+   bool z;
+
+   z = getSomethingFromServer();
+   x = getSomethingElse() + 20;
+   y = x + z;
+}
+```
