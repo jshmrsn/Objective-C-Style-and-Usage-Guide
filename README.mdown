@@ -17,9 +17,11 @@ __C-Blocks:__ Opening brace goes on a new line, except when the block is a param
 ```objective-c
 if (true)  
 {
+    // do something
 }  
 else  
 {
+    // do something else
 }  
 ```
 
