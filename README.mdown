@@ -149,6 +149,7 @@ typedef enum
 ```
 
 __IBOutlets__ should be named to represent the object that will present data, not the data itself.  
+
 ```objective-c
 @property (nonatomic, retain) UILabel* titleLabel;   // preferred
 @property (nonatomic, retain) UILabel* title; // misleading
