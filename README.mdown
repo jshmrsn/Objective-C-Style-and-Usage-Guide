@@ -15,7 +15,7 @@ __If statement:__ Opening brace goes on a new line.
 __C-Blocks:__ Opening brace goes on a new line, except when the block is a parameter for a C function or ObjC message send... Xcode will auto-format improperly otherwise.  
 
 ```objective-c
-if (true)  
+if (TRUE)  
 {
     // do something
 }  
