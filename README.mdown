@@ -16,21 +16,23 @@ __C-Blocks:__ Opening brace goes on a new line, except when the block is a param
 
 ```objective-c
 if (true)  
-{}  
+{
+}  
 else  
-{}  
+{
+}  
 ```
 
 ```objective-c
 [someObject doSomethingWithABlock:^(int someInt) {  
-            printf(“I’m in a block.”);  
-     }];  
+    printf(“I’m in a block.”);  
+}];  
 ```
 
 ```objective-c
 void (^aBlock)(int) = ^(int someInt)  
 {  
-   printf(“I’m in a block.”);  
+    printf(“I’m in a block.”);  
 }
 ```
 
