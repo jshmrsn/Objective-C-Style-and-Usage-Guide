@@ -27,14 +27,14 @@ else
 
 ```objective-c
 [someObject doSomethingWithABlock:^(int someInt) {  
-    printf(“I’m in a block.”);  
+    printf(“In a block.”);  
 }];  
 ```
 
 ```objective-c
 void (^aBlock)(int) = ^(int someInt)  
 {  
-    printf(“I’m in a block.”);  
+    printf(“In in a block.”);  
 }
 ```
 
@@ -74,7 +74,7 @@ void doSomething(void)
 When associated with a particular class, C functions should be prefixed with that class’s identifier and placed inside that class’s @implementation block.
 
 ```objective-c
-Dog_bark(Dog* self)
+void Dog_bark(Dog* self)
 {
 }
 ```
@@ -124,7 +124,7 @@ __Instance methods__ and class methods should be named using camel-cased-first-l
 - (void)readFromFilepath:(NSString*)filepath;
 
 - (void)readFromFilepath:(NSString*)filepath
-                             error:(NSError**)errorOrNil;
+                   error:(NSError**)errorOrNil;
 ```
 
 Method parameters may be lengthened to clarify their usage (e.g. errorOrNil).
@@ -181,7 +181,6 @@ __Defines for code switching__ should be named in all-caps, with underscores sep
 
 ```objective-c
 #define ENABLE_PRINTING 1
-
 #if ENABLE_PRINTING
 printf(“foo”);
 #endif
@@ -192,7 +191,7 @@ __Defines for value constants__ should be named camel-cased, with a prefixed “
 ```objective-c
 #define kMagickNumber 5.123
 
-float x = kMagickNumber _* y;
+float x = kMagickNumber * y;
 ```
 
 __Defines for code generation__ should be named camel-cased-first-upper.
@@ -253,7 +252,7 @@ __MyClass.m__
 @end
 
 
-@implemenation MyClass
+@implementation MyClass
 
 // Class methods first
 + (id)something
@@ -265,10 +264,10 @@ __MyClass.m__
 - (id)init
 {
     self = [super init];
-
+    
     if (self != nil)
     {
-    	something = [SomeClass new];
+        something = [SomeClass new];
     }
 
     return self;
