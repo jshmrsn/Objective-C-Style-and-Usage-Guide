@@ -365,7 +365,7 @@ UIColor.redColor uses the same mechanics as someTextField.text.
 Generally, it’s acceptable to use dot syntax whenever the method you are calling forms a noun. Conversely, a method that forms a verb should not be used with dot syntax, e.g. dog.bark.
 
 
-##Utilizing Objective-C blocks (aka lamdas, closures)
+##Utilizing Objective-C blocks
 Blocks utilize a syntax that is often unfamiliar, and can lead to a complex, if not confusing, code flow if not used carefully. That said, blocks can also be extremely useful for expressing complex asynchronous event chains in a way that is naturally close to the problem.
 
 An example borrowed from ["Designing With Blocks", Ben Coe](http://www.benjamincoe.com/post/15891802388/objective-c-designing-with-blocks):
